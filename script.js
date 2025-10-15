@@ -1,11 +1,11 @@
 // Cookie Popup Manager
 class CookiePopup {
-    constructor() {
+    constructor(config = {}) {
         this.popup = null;
         this.acceptBtn = null;
         this.cookieName = 'cookieConsent';
         
-        // Настройки кастомизации попапа
+        // Настройки кастомизации попапа с значениями по умолчанию
         this.config = {
             // Цвета
             backgroundColor: '#ffffff',
@@ -25,8 +25,19 @@ class CookiePopup {
             shadowOffset: '0 10px',
             
             // Шрифт
-            fontSize: '0.95rem'
+            fontSize: '0.95rem',
+            
+            // Текст
+            message: 'На сайте используется Яндекс Метрика, собираются и обрабатываются сооkiе-файлы и персональные данные пользователей заполненные в формах. Продолжая использовать сайт, вы соглашаетесь с <a href="#" class="policy-link" target="_blank">политикой обработки персональных данных</a>.',
+            buttonText: 'ОК',
+            thankYouMessage: 'Спасибо! Вы приняли условия обработки персональных данных.',
+            
+            // Ссылка на политику
+            policyUrl: '#'
         };
+        
+        // Переопределяем настройки переданными параметрами
+        Object.assign(this.config, config);
         
         this.injectStyles();
         this.createPopupHTML();
@@ -176,7 +187,7 @@ class CookiePopup {
         // Создаем описание
         const cookieDescription = document.createElement('p');
         cookieDescription.className = 'cookie-description';
-        cookieDescription.innerHTML = 'На сайте используется Яндекс Метрика, собираются и обрабатываются сооkiе-файлы и персональные данные пользователей заполненные в формах. Продолжая использовать сайт, вы соглашаетесь с <a href="#" class="policy-link" target="_blank">политикой обработки персональных данных</a>.';  
+        cookieDescription.innerHTML = this.config.message.replace('#', this.config.policyUrl);  
         
         // Создаем контейнер для кнопки
         const cookieButtonContainer = document.createElement('div');
@@ -186,7 +197,7 @@ class CookiePopup {
         this.acceptBtn = document.createElement('button');
         this.acceptBtn.className = 'btn-ok';
         this.acceptBtn.id = 'acceptCookies';
-        this.acceptBtn.textContent = 'ОК';
+        this.acceptBtn.textContent = this.config.buttonText;
         
         // Собираем структуру
         cookieButtonContainer.appendChild(this.acceptBtn);
@@ -236,7 +247,7 @@ class CookiePopup {
     handleAccept() {
         this.saveUserChoice('accepted');
         this.hidePopup();
-        this.showThankYouMessage('Спасибо! Вы приняли условия обработки персональных данных.');
+        this.showThankYouMessage(this.config.thankYouMessage);
     }
     
     // Сохраняем выбор пользователя в localStorage
@@ -307,8 +318,11 @@ class CookiePopup {
 
 // Инициализация попапа после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Создаем экземпляр CookiePopup
-    window.cookiePopup = new CookiePopup();
+    // Проверяем, есть ли глобальная конфигурация
+    const config = window.cookiePopupConfig || {};
+    
+    // Создаем экземпляр CookiePopup с конфигурацией
+    window.cookiePopup = new CookiePopup(config);
     
     // Добавляем глобальную функцию для сброса (для тестирования)
     window.resetCookieConsent = function() {
