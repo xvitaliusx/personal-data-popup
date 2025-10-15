@@ -30,10 +30,7 @@ class CookiePopup {
             // Текст
             message: 'На сайте используется Яндекс Метрика, собираются и обрабатываются сооkiе-файлы и персональные данные пользователей заполненные в формах. Продолжая использовать сайт, вы соглашаетесь с <a href="#" class="policy-link" target="_blank">политикой обработки персональных данных</a>.',
             buttonText: 'ОК',
-            thankYouMessage: 'Спасибо! Вы приняли условия обработки персональных данных.',
-            
-            // Ссылка на политику
-            policyUrl: '#'
+            thankYouMessage: 'Спасибо! Вы приняли условия обработки персональных данных.'
         };
         
         // Переопределяем настройки переданными параметрами
@@ -187,7 +184,7 @@ class CookiePopup {
         // Создаем описание
         const cookieDescription = document.createElement('p');
         cookieDescription.className = 'cookie-description';
-        cookieDescription.innerHTML = this.config.message.replace('#', this.config.policyUrl);  
+        cookieDescription.innerHTML = this.config.message;  
         
         // Создаем контейнер для кнопки
         const cookieButtonContainer = document.createElement('div');
