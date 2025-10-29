@@ -14,9 +14,8 @@ class CookiePopup {
             buttonTextColor: '#ffffff',
             
             // Размеры и позиционирование
-            borderRadius: '12px',
+            borderRadius: '0px',
             leftPosition: '20px',
-            rightPosition: '20px',
             bottomPosition: '20px',
             
             // Тень
@@ -25,10 +24,10 @@ class CookiePopup {
             shadowOffset: '0 10px',
             
             // Шрифт
-            fontSize: '0.95rem',
+            fontSize: '0.8rem',
             
             // Текст
-            message: 'На сайте используется Яндекс Метрика, собираются и обрабатываются сооkiе-файлы и персональные данные пользователей заполненные в формах. Продолжая использовать сайт, вы соглашаетесь с <a href="#" class="policy-link" target="_blank">политикой обработки персональных данных</a>.',
+            message: 'На сайте используется Яндекс Метрика, собираются и обрабатываются сооkiе-файлы и персональные данные пользователей заполненные в формах. Продолжая использовать сайт, вы соглашаетесь <a href="#" class="policy-link" target="_blank">на обработку персональных данных</a> в соответствии с <a href="#" class="policy-link" target="_blank">политикой обработки персональных данных</a>.',
             buttonText: 'ОК',
             thankYouMessage: 'Спасибо! Вы приняли условия обработки персональных данных.'
         };
@@ -75,7 +74,7 @@ class CookiePopup {
                 font-family: sans-serif;
                 transform: translateY(100%);
                 transition: transform 0.3s ease-in-out;
-                max-width: 500px;
+                max-width: 540px;
                 margin: 0 auto;
             }
             
@@ -85,12 +84,13 @@ class CookiePopup {
             
             .cookie-content {
                 padding: 1.5rem;
-                text-align: center;
+                text-align: left;
             }
             
             .cookie-icon {
                 font-size: 3rem;
                 margin-bottom: 1rem;
+                display: none;
             }
             
             .cookie-description {
@@ -114,20 +114,20 @@ class CookiePopup {
             
             .cookie-button-container {
                 display: flex;
-                justify-content: center;
+                justify-content: left;
             }
             
             .btn-ok {
                 padding: 0.75rem 2rem;
                 border: none;
-                border-radius: 6px;
-                font-size: 0.9rem;
+                border-radius: ${this.config.borderRadius};
+                font-size: 0.75rem;
                 font-weight: 600;
                 cursor: pointer;
                 transition: all 0.3s ease;
                 background: ${this.config.buttonColor};
                 color: ${this.config.buttonTextColor};
-                min-width: 120px;
+                min-width: 100px;
             }
             
             .btn-ok:hover {
@@ -139,7 +139,6 @@ class CookiePopup {
             @media (max-width: 768px) {
                 .cookie-popup {
                     left: 10px;
-                    right: 10px;
                     bottom: 10px;
                 }
                 
@@ -149,7 +148,7 @@ class CookiePopup {
                 
                 .cookie-button-container {
                     flex-direction: column;
-                    align-items: center;
+                    align-items: left;
                 }
                 
                 .btn-ok {
@@ -266,15 +265,16 @@ class CookiePopup {
         notification.textContent = message;
         notification.style.cssText = `
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
+            left: ${this.config.leftPosition};
+            bottom: ${this.config.bottomPosition};
+            background: ${this.config.buttonColor};
+            color: ${this.config.buttonTextColor};
             padding: 1rem 1.5rem;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-family: sans-serif;
+            border-radius: ${this.config.borderRadius};
+            box-shadow: ${this.config.shadowOffset} ${this.config.shadowBlur} ${this.config.shadowColor};
             z-index: 1001;
-            font-size: 0.9rem;
+            font-size: ${this.config.fontSize};;
             max-width: 300px;
             transform: translateX(100%);
             transition: transform 0.3s ease-in-out;
